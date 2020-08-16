@@ -23,13 +23,40 @@ public class infixtoprefix
 	public static void convert(String s1)
 	{
 		String r=new String("");
+		String r1=new String("");
 		Stack<Character> st=new Stack<Character>();
 		for(int i=s1.length()-1;i>=0;i--)
 		{
-			char c=s1.charAt(i);
+			char ch=s1.charAt(i);
+			if(ch==')')
+			{
+				ch='(';
+			}
+			else if(ch=='(')
+			{
+				ch=')';
+			}
+			r1=r1+ch;
+		}
+		for(int i=0;i<r1.length();i++)
+		{
+			char c=r1.charAt(i);
 			if(Character.isLetterOrDigit(c))
 			{
 				r=r+c;
+			}
+			else if(c=='(')
+			{
+				st.push(c);
+			}
+			else if(c==')')
+				
+			{
+				while(st.peek()!='('&& !st.isEmpty())
+				{
+					r=r+st.pop();
+				}
+				st.pop();
 			}
 			else if(st.isEmpty())
 			{
@@ -37,7 +64,7 @@ public class infixtoprefix
 			}
 			else if(!st.isEmpty())
 			{
-				while(pre(c)<pre(st.peek()))
+				while(pre(c)<pre(st.peek())||pre(c)==pre(st.peek()))
 				{
 					r=r+st.pop();
 				}
@@ -48,17 +75,19 @@ public class infixtoprefix
 		{
 			r=r+st.pop();
 		}
-		System.out.println(r);
 		for(int i=r.length()-1;i>=0;i--)
 		{
 			char c1=r.charAt(i);
-			System.out.print(c1);
+			if(c1!=')'||c1!='(')
+			{
+				System.out.print(c1);	
+			}
 		}
 	}
 	public static void main(String[] args) 
 	{
 		Scanner s=new Scanner(System.in);
-		String s1=s.nextLine();
+		String s1=s.next();
 		convert(s1);
 	}
 
